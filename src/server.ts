@@ -2,6 +2,7 @@ import express from "express";
 import mongoose from "mongoose";
 import bodyParser from "body-parser";
 import passport from "passport";
+import cors from "cors";
 import key from "./config/key";
 // Bring in keys file from config to store credentials outside
 const db: string = key.mongoURI;
@@ -30,6 +31,9 @@ const app = express();
 // Use the bodyparser middleware to parse post data into an object called body as a prop in request
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+
+// Allow cross origin requests
+app.use(cors());
 
 // Passport middleware for sessions and authentication
 app.use(passport.initialize());
