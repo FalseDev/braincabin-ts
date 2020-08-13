@@ -45,6 +45,15 @@ const QuestionSchema: mongoose.Schema = new mongoose.Schema({
       },
     },
   ],
+  answerCount: {
+    type: Number,
+  },
+  downvoteCount: {
+    type: Number,
+  },
+  upvoteCount: {
+    type: Number,
+  },
   date: {
     type: Date,
     default: Date.now,
@@ -58,8 +67,14 @@ export interface IQuestion extends mongoose.Document {
   tags: string[];
   level: string;
   subject: string;
+
   upvotes: IUser["_id"][];
   downvotes: IUser["_id"][];
+  date: Date;
+
+  answerCount: number;
+  upvoteCount: number;
+  downvoteCount: number;
 }
 
 export default mongoose.model<IQuestion>("questions", QuestionSchema);

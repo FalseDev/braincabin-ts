@@ -1,5 +1,5 @@
 import express from "express";
-import passport, { authenticate } from "passport";
+import passport from "passport";
 const questionsRouter = express.Router();
 import Question, { IQuestion } from "../../models/Question";
 import User, { IUser } from "../../models/User";
@@ -23,6 +23,9 @@ questionsRouter.post(
       subject: req.body.subject,
       level: req.body.level,
       user: req.user.id,
+      answerCount: 0,
+      upvoteCount: 0,
+      downvoteCount: 0,
     })
       .save()
       .then((question) => {
@@ -62,7 +65,6 @@ questionsRouter.post(
       .populate("user", ["username", "name"])
       .then((question) => {
         if (!question) {
-          console.log(question);
           return res.status(404).json({ errors: "Question not found" });
         }
         res.json(question);

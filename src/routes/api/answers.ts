@@ -16,6 +16,9 @@ answerRouter.post(
     if (!isValid) {
       return res.status(400).json(errors);
     }
+    if (!req.body.id) {
+      return res.status(400).json({ error: "No id provided" });
+    }
 
     const user = <IUser>req.user;
 
@@ -23,10 +26,14 @@ answerRouter.post(
       answer: req.body.description,
       user: user.id,
       question: req.body.question,
+      upvoteCount: 0,
+      downvoteCount: 0,
+      answers: 0,
     })
       .save()
       .then((answer) => {
         Question.findById(req.body.question).then((question) => {
+          question!.answerCount++;
           question!.save().then((question) => {
             res.json({ answer, question });
           });

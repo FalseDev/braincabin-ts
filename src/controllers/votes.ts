@@ -39,8 +39,14 @@ function vote(
             .map((vote: any) => vote._id.toString())
             .indexOf(user._id.toString());
           complementaryVoteType.splice(vote_index);
+          if (type === "upvote") {
+            actOn.downvoteCount--;
+          } else actOn.upvoteCount--;
         }
         actVoteType.push(user._id);
+        if (type === "upvote") {
+          actOn.upvoteCount++;
+        } else actOn.downvoteCount++;
         actOn.save().then((_actOn: any) => {
           return res.json({ upvoted: true });
         });
@@ -54,6 +60,9 @@ function vote(
           .map((vote: any) => vote._id.toString())
           .indexOf(user._id.toString());
         actVoteType.splice(vote_index);
+        if ((type = "upvote")) {
+          actOn.downvoteCount--;
+        } else actOn.upvoteCount--;
         actOn.save();
         return res.json(actOn);
       } else return res.json({ error: "Not upvoted yet" });

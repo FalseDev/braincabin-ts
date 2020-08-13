@@ -32,6 +32,15 @@ const AnswerSchema = new Schema({
       },
     },
   ],
+  answerCount: {
+    type: Number,
+  },
+  downvoteCount: {
+    type: Number,
+  },
+  upvoteCount: {
+    type: Number,
+  },
   date: {
     type: Date,
     default: Date.now,
@@ -42,9 +51,14 @@ export interface IAnswer extends Document {
   answer: string;
   user: IUser["_id"];
   question: IQuestion["_id"];
+
   upvotes: IUser["_id"][];
   downvotes: IUser["_id"][];
   date: Date;
+
+  answerCount: number;
+  upvoteCount: number;
+  downvoteCount: number;
 }
 
 export default model<IAnswer>("answers", AnswerSchema);
